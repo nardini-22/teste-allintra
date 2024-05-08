@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Counter } from "./components/counter/Counter";
 
 export default function IndexPage() {
-  return <Counter />;
+  return <div>Initial project build</div>;
 }
 
 export const metadata: Metadata = {
-  title: "Redux Toolkit",
+  title: "Teste Allintra",
 };
