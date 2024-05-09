@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import Dashboard from '@/app/components/dashboard/Dashboard'
+import type { Metadata } from 'next'
 
 export default function IndexPage() {
-  return <div>Initial project build</div>;
+  return <Dashboard />
 }
 
 export const metadata: Metadata = {
-  title: "Teste Allintra",
-};
+  title: 'Teste Allintra',
+}
