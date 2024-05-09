@@ -2,6 +2,7 @@ import { createAppSlice } from '@/lib/createAppSlice'
 
 export interface WebSocketSliceState {
   isConnected: boolean
+  shouldReconnect: boolean
   pricesInfo: {
     prices: {
       btc: number
@@ -20,6 +21,7 @@ export interface WebSocketSliceState {
 
 const initialState: WebSocketSliceState = {
   isConnected: false,
+  shouldReconnect: true,
   pricesInfo: {
     prices: {
       btc: 0,
@@ -46,6 +48,12 @@ export const webSocketSlice = createAppSlice({
     disconnect: create.reducer((state) => {
       state.isConnected = false
     }),
+    reconnect: create.reducer((state) => {
+      state.shouldReconnect = true
+    }),
+    abortReconnect: create.reducer((state) => {
+      state.shouldReconnect = false
+    }),
     addPriceInfo: (state, action) => {
       switch (action.payload.symbol) {
         case 'BTCUSDT':
@@ -68,11 +76,14 @@ export const webSocketSlice = createAppSlice({
     },
   }),
   selectors: {
-    selectPricesInfo: (webSocket) => webSocket.pricesInfo,
     selectIsConnected: (webSocket) => webSocket.isConnected,
+    selectShouldReconnect: (webSocket) => webSocket.shouldReconnect,
+    selectPricesInfo: (webSocket) => webSocket.pricesInfo,
   },
 })
 
-export const { connect, disconnect, addPriceInfo } = webSocketSlice.actions
+export const { connect, disconnect, reconnect, abortReconnect, addPriceInfo } =
+  webSocketSlice.actions
 
-export const { selectPricesInfo, selectIsConnected } = webSocketSlice.selectors
+export const { selectIsConnected, selectShouldReconnect, selectPricesInfo } =
+  webSocketSlice.selectors

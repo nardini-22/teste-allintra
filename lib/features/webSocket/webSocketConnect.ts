@@ -1,5 +1,11 @@
 import { AppDispatch } from '@/lib/store'
-import { addPriceInfo, connect, disconnect } from './webSocketSlice'
+import {
+  abortReconnect,
+  addPriceInfo,
+  connect,
+  disconnect,
+  reconnect,
+} from './webSocketSlice'
 
 export const connectWebSocket = () => (dispatch: AppDispatch) => {
   const socket = new WebSocket('wss://stream.binance.com:9443/ws')
@@ -17,7 +23,9 @@ export const connectWebSocket = () => (dispatch: AppDispatch) => {
       }),
     )
     dispatch(connect())
+    dispatch(abortReconnect())
   }
+
   socket.onmessage = (event) => {
     const obj = JSON.parse(event.data)
     if (obj.result !== null) {
@@ -29,8 +37,10 @@ export const connectWebSocket = () => (dispatch: AppDispatch) => {
       dispatch(addPriceInfo(payload))
     }
   }
+
   socket.onclose = () => {
     dispatch(disconnect())
+    dispatch(reconnect())
   }
 
   return socket
