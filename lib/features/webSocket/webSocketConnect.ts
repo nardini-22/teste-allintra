@@ -1,47 +1,44 @@
 import { AppDispatch } from '@/lib/store'
 import {
   abortReconnect,
-  addPriceInfo,
+  addDashboardData,
   connect,
   disconnect,
   reconnect,
 } from './webSocketSlice'
 
-export const connectWebSocket = () => (dispatch: AppDispatch) => {
-  const socket = new WebSocket('wss://stream.binance.com:9443/ws')
-  socket.onopen = () => {
-    socket.send(
-      JSON.stringify({
-        method: 'SUBSCRIBE',
-        params: [
-          'btcusdt@ticker',
-          'solusdt@ticker',
-          'ethusdt@ticker',
-          'dogeusdt@ticker',
-        ],
-        id: 1,
-      }),
-    )
-    dispatch(connect())
-    dispatch(abortReconnect())
-  }
+export const connectWebSocket =
+  (params: string[]) => (dispatch: AppDispatch) => {
+    const socket = new WebSocket('wss://stream.binance.com:9443/ws')
 
-  socket.onmessage = (event) => {
-    const obj = JSON.parse(event.data)
-    if (obj.result !== null) {
-      const payload = {
-        symbol: obj.s,
-        price: obj.c,
-        pricePercent: obj.P,
-      }
-      dispatch(addPriceInfo(payload))
+    socket.onopen = () => {
+      socket.send(
+        JSON.stringify({
+          method: 'SUBSCRIBE',
+          params,
+          id: 1,
+        }),
+      )
+      dispatch(connect())
+      dispatch(abortReconnect())
     }
-  }
 
-  socket.onclose = () => {
-    dispatch(disconnect())
-    dispatch(reconnect())
-  }
+    socket.onmessage = (event) => {
+      const obj = JSON.parse(event.data)
+      if (obj.result !== null) {
+        const payload = {
+          symbol: obj.s,
+          price: obj.c,
+          priceChangePercent: obj.P,
+        }
+        dispatch(addDashboardData(payload))
+      }
+    }
 
-  return socket
-}
+    socket.onclose = () => {
+      dispatch(disconnect())
+      dispatch(reconnect())
+    }
+
+    return socket
+  }

@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { connectWebSocket } from '@/lib/features/webSocket/webSocketConnect'
 import {
-  selectPricesInfo,
+  selectDashboardData,
   selectShouldReconnect,
 } from '@/lib/features/webSocket/webSocketSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
@@ -9,12 +10,20 @@ import { useEffect } from 'react'
 
 const Dashboard = () => {
   const dispatch = useAppDispatch()
-  const pricesInfo = useAppSelector(selectPricesInfo)
   const shouldReconnect = useAppSelector(selectShouldReconnect)
+  const dashboardData = useAppSelector(selectDashboardData)
+
+  const params = [
+    'btcusdt@ticker',
+    'solusdt@ticker',
+    'ethusdt@ticker',
+    'dogeusdt@ticker',
+  ]
 
   useEffect(() => {
     if (shouldReconnect) {
-      dispatch(connectWebSocket())
+      dispatch(connectWebSocket(params))
+
       // Mock de erro no webSocket
       // setTimeout(() => {
       //   console.log('desconectei')
@@ -25,20 +34,13 @@ const Dashboard = () => {
 
   return (
     <>
-      <div>
-        BTC Bitcoin {pricesInfo.prices.btc} {pricesInfo.priceChangePercent.btc}%
-      </div>
-      <div>
-        ETH Ethereum {pricesInfo.prices.eth} {pricesInfo.priceChangePercent.eth}
-        %
-      </div>
-      <div>
-        SOL Solana {pricesInfo.prices.sol} {pricesInfo.priceChangePercent.sol}%
-      </div>
-      <div>
-        DOGE Dogecoin: {pricesInfo.prices.doge}{' '}
-        {pricesInfo.priceChangePercent.doge}%
-      </div>
+      {dashboardData.map((data) => {
+        return (
+          <div key={data.symbol}>
+            {data.symbol} {data.price} {data.priceChangePercent}%
+          </div>
+        )
+      })}
     </>
   )
 }

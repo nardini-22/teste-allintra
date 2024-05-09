@@ -3,39 +3,17 @@ import { createAppSlice } from '@/lib/createAppSlice'
 export interface WebSocketSliceState {
   isConnected: boolean
   shouldReconnect: boolean
-  pricesInfo: {
-    prices: {
-      btc: number
-      doge: number
-      eth: number
-      sol: number
-    }
-    priceChangePercent: {
-      btc: number
-      doge: number
-      eth: number
-      sol: number
-    }
-  }
+  dashboardData: {
+    symbol: string
+    price: number
+    priceChangePercent: number
+  }[]
 }
 
 const initialState: WebSocketSliceState = {
   isConnected: false,
   shouldReconnect: true,
-  pricesInfo: {
-    prices: {
-      btc: 0,
-      doge: 0,
-      eth: 0,
-      sol: 0,
-    },
-    priceChangePercent: {
-      btc: 0,
-      doge: 0,
-      eth: 0,
-      sol: 0,
-    },
-  },
+  dashboardData: [],
 }
 
 export const webSocketSlice = createAppSlice({
@@ -54,36 +32,43 @@ export const webSocketSlice = createAppSlice({
     abortReconnect: create.reducer((state) => {
       state.shouldReconnect = false
     }),
-    addPriceInfo: (state, action) => {
-      switch (action.payload.symbol) {
-        case 'BTCUSDT':
-          state.pricesInfo.prices.btc = action.payload.price
-          state.pricesInfo.priceChangePercent.btc = action.payload.pricePercent
-          break
-        case 'ETHUSDT':
-          state.pricesInfo.prices.eth = action.payload.price
-          state.pricesInfo.priceChangePercent.eth = action.payload.pricePercent
-          break
-        case 'SOLUSDT':
-          state.pricesInfo.prices.sol = action.payload.price
-          state.pricesInfo.priceChangePercent.sol = action.payload.pricePercent
-          break
-        case 'DOGEUSDT':
-          state.pricesInfo.prices.doge = action.payload.price
-          state.pricesInfo.priceChangePercent.doge = action.payload.pricePercent
-          break
+    addDashboardData: (state, action) => {
+      const handleFilterArray = (array, newObj) => {
+        const filteredArray = array.filter(
+          (item) => item.symbol !== newObj.symbol,
+        )
+        const newArray = [...filteredArray, newObj]
+
+        return newArray.sort((a, b) => {
+          if (a.symbol < b.symbol) {
+            return -1
+          } else if (a.symbol > b.symbol) {
+            return 1
+          } else {
+            return 0
+          }
+        })
       }
+      state.dashboardData = handleFilterArray(
+        state.dashboardData,
+        action.payload,
+      )
     },
   }),
   selectors: {
     selectIsConnected: (webSocket) => webSocket.isConnected,
     selectShouldReconnect: (webSocket) => webSocket.shouldReconnect,
-    selectPricesInfo: (webSocket) => webSocket.pricesInfo,
+    selectDashboardData: (webSocket) => webSocket.dashboardData,
   },
 })
 
-export const { connect, disconnect, reconnect, abortReconnect, addPriceInfo } =
-  webSocketSlice.actions
+export const {
+  connect,
+  disconnect,
+  reconnect,
+  abortReconnect,
+  addDashboardData,
+} = webSocketSlice.actions
 
-export const { selectIsConnected, selectShouldReconnect, selectPricesInfo } =
+export const { selectIsConnected, selectShouldReconnect, selectDashboardData } =
   webSocketSlice.selectors
