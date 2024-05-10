@@ -9,7 +9,7 @@ import {
 
 export const connectWebSocket =
   (params: string[]) => (dispatch: AppDispatch) => {
-    const socket = new WebSocket('wss://stream.binance.com:9443/ws')
+    const socket = new WebSocket(process.env.NEXT_WEBSOCKET_URL)
 
     socket.onopen = () => {
       socket.send(

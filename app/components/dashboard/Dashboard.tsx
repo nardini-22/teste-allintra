@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
+import DashboardSkeleton from '@/app/components/ui/dashboard-skeleton'
 import {
   Table,
   TableBody,
   TableCell,
   TableRow,
 } from '@/app/components/ui/table'
+import { webSocketParams } from '@/lib/constants'
 import { connectWebSocket } from '@/lib/features/webSocket/webSocketConnect'
 import {
   selectDashboardData,
@@ -14,27 +16,18 @@ import {
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { CurrencyFormatter } from '@/lib/utils'
 import { useEffect } from 'react'
-import DashboardSkeleton from '../ui/dashboard-skeleton'
 
 const Dashboard = () => {
   const dispatch = useAppDispatch()
   const shouldReconnect = useAppSelector(selectShouldReconnect)
   const dashboardData = useAppSelector(selectDashboardData)
 
-  const params = [
-    'btcusdt@ticker',
-    'solusdt@ticker',
-    'ethusdt@ticker',
-    'dogeusdt@ticker',
-  ]
-
   useEffect(() => {
     if (shouldReconnect) {
-      dispatch(connectWebSocket(params))
+      dispatch(connectWebSocket(webSocketParams))
 
       // Mock de erro no webSocket
       // setTimeout(() => {
-      //   console.log('desconectei')
       //   socket.close(1000, '')
       // }, 3000)
     }
@@ -44,7 +37,7 @@ const Dashboard = () => {
     <div className="w-full h-screen flex justify-center flex-col items-center">
       <Table className="bg-primary rounded-md">
         <TableBody>
-          {dashboardData.length === params.length ? (
+          {dashboardData.length === webSocketParams.length ? (
             dashboardData.map((data) => (
               <TableRow key={data.symbol}>
                 <TableCell className="text-left">{data.symbol}</TableCell>
