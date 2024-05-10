@@ -1,29 +1,55 @@
-# Redux Toolkit TypeScript Example
+# Teste Allintra
 
-This example shows how to integrate Next.js with [Redux Toolkit](https://redux-toolkit.js.org).
+[![en](https://img.shields.io/badge/Language-English-red.svg)](https://github.com/nardini-22/teste-allintra/blob/master/README.md)
 
-**Redux Toolkit**(also known as "RTK" for short) provides a standardized way to write Redux logic. It includes utilities that help simplify many common use cases, including [store setup](https://redux-toolkit.js.org/api/configureStore), [creating reducers and writing immutable update logic](https://redux-toolkit.js.org/api/createreducer), and even [creating entire "slices" of state at once](https://redux-toolkit.js.org/api/createslice). This example showcases each of these features in conjunction with Next.js.
+## ✏️ Introduction
 
-## Deploy Your Own
+A simple dashboard that connects to the [Binance API](https://binance-docs.github.io/apidocs/spot/en/#change-log) to monitor and display
+in real time the latest price and percentage fluctuation of prices of specific cryptocurrencies.
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+## 📋 Features
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-redux&project-name=with-redux&repository-name=with-redux)
+A few of the things this project do:
 
-## How to Use
+* Uses WebSocket to connect to the API;
+* Display cryptocurrencies price in real time;
+* Show cryptocurrencies price fluctuations in real time;
+* Automatically reconnects if connection is lost or any other error;
+* Uses Redux to maintain state in the application;
+* Possible to acess the application with desktop or mobile, without losing perfomance or breaking the interface;
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+## 💻 Built with
+
+* [Next.js](https://nextjs.org/)
+* [TypeScript](https://www.typescriptlang.org/)
+* [Tailwind CSS](https://tailwindcss.com/)
+* [Redux](https://redux.js.org/)
+* [Redux Toolkit](https://redux-toolkit.js.org)
+* [Redux-thunk](https://github.com/reduxjs/redux-thunk)
+* [Shadcn/ui](https://ui.shadcn.com/)
+* [DotEnv](https://www.npmjs.com/package/dotenv)
+
+## 🚀 Installation
+
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
 ```bash
-npx create-next-app --example with-redux with-redux-app
+# Clone this repository
+$ git clone https://github.com/nardini-22/teste-allintra.git
+
+# Go into the repository
+$ cd teste-allintra
+
+# Install dependencies
+$ npm install
+
+# Enter Binance API in .env
+$ NEXT_WEBSOCKET_URL:"wss://stream.binance.com:9443/ws"
+
+# Run the app
+$ npm run dev
 ```
 
-```bash
-yarn create next-app --example with-redux with-redux-app
-```
+> **Note**
+> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
 
-```bash
-pnpm create next-app --example with-redux with-redux-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
