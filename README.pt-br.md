@@ -1,6 +1,6 @@
 # Teste Allintra
 
-[![en](https://img.shields.io/badge/Language-English-red.svg)](https://github.com/nardini-22/teste-allintra/blob/master/README.md)
+[![en](https://img.shields.io/badge/README-English-red.svg)](https://github.com/nardini-22/teste-allintra/blob/master/README.md)
 
 ## ✏️ Introdução
 
