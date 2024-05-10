@@ -1,6 +1,6 @@
 # Teste Allintra
 
-[![en](https://img.shields.io/badge/Language-English-red.svg)](https://github.com/nardini-22/teste-allintra/blob/master/README.md)
+[![pt](https://img.shields.io/badge/README-Portuguese-green.svg)](https://github.com/nardini-22/teste-allintra/blob/master/README.pt-br.md)
 
 ## ✏️ Introduction
 
@@ -43,7 +43,7 @@ $ cd teste-allintra
 # Install dependencies
 $ npm install
 
-# Enter Binance API in .env
+# Create .env file and enter API url
 $ NEXT_WEBSOCKET_URL:"wss://stream.binance.com:9443/ws"
 
 # Run the app
