@@ -11,7 +11,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const CurrencyFormatter = ({
+export const currencyFormatter = ({
   value,
   currency = 'USD',
   locale = 'en-US',
@@ -30,4 +30,12 @@ export const CurrencyFormatter = ({
   }).format(value)
 
   return formattedValue
+}
+
+export const percentageFormatter = (value: number) => {
+  const decimalValue = value.toFixed(2)
+  const str = decimalValue.toString()
+  const formattedValue = str.replace('.', ',')
+
+  return value > 0 ? `+${formattedValue}%` : `${formattedValue}%`
 }

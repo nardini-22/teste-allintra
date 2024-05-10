@@ -14,7 +14,7 @@ import {
   selectShouldReconnect,
 } from '@/lib/features/webSocket/webSocketSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { CurrencyFormatter } from '@/lib/utils'
+import { currencyFormatter, percentageFormatter } from '@/lib/utils'
 import { useEffect } from 'react'
 
 const Dashboard = () => {
@@ -42,14 +42,14 @@ const Dashboard = () => {
               <TableRow key={data.symbol}>
                 <TableCell className="text-left">{data.symbol}</TableCell>
                 <TableCell>
-                  {CurrencyFormatter({ value: data.price })}
+                  {currencyFormatter({ value: data.price })}
                 </TableCell>
                 <TableCell
                   className={
                     data.priceChangePercent > 0 ? 'text-success' : 'text-error'
                   }
                 >
-                  {data.priceChangePercent}%
+                  {percentageFormatter(data.priceChangePercent)}
                 </TableCell>
               </TableRow>
             ))

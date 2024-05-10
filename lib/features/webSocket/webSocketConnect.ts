@@ -28,8 +28,8 @@ export const connectWebSocket =
       if (obj.result !== null) {
         const payload = {
           symbol: obj.s,
-          price: obj.c,
-          priceChangePercent: obj.P,
+          price: Number(obj.c),
+          priceChangePercent: Number(obj.P),
         }
         dispatch(addDashboardData(payload))
       }
